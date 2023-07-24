@@ -5,7 +5,7 @@ This is a simple User Management API that allows users to create, read, update, 
 ## Installation
 
 1. Clone the repository:
-  git clone https://github.com/Decole92/users_crud.git
+- git clone https://github.com/Decole92/users_crud.git
 
 2. Navigate to the project directory:
    cd users_crud
