@@ -16,7 +16,9 @@ const createUser = async (req, res) => {
     );
 
     const createdUserId = result.insertId;
-    res.status(200).json({ id: createdUserId, name, email, age });
+
+    res.status(200).json({ id: createdUser
+      Id, name, email, age });
   } catch (err) {
     res.status(500).json({ error: "Failed to create new user" });
   }
