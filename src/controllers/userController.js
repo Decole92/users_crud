@@ -1,24 +1,28 @@
 const { validationResult } = require("express-validator");
 const pool = require("../config/dbConfig");
 
+// Create a new user
 const createUser = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
+
   const { name, email, age } = req.body;
   try {
     const [result] = await pool.query(
       "INSERT INTO users (name, email, age) VALUES (?, ?, ?)",
       [name, email, age]
     );
+
     const createdUserId = result.insertId;
     res.status(200).json({ id: createdUserId, name, email, age });
   } catch (err) {
-    res.status(500).json({ error: "Failed to create new User" });
+    res.status(500).json({ error: "Failed to create new user" });
   }
 };
 
+// Get all users
 const getUsers = async (req, res) => {
   try {
     const [results] = await pool.query("SELECT * FROM users");
@@ -28,11 +32,13 @@ const getUsers = async (req, res) => {
   }
 };
 
+// Update an existing user
 const updateUser = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
+
   const { id } = req.params;
   const { name, email, age } = req.body;
 
@@ -52,6 +58,7 @@ const updateUser = async (req, res) => {
   }
 };
 
+// Delete a user
 const deleteUser = async (req, res) => {
   const { id } = req.params;
   try {
@@ -62,7 +69,8 @@ const deleteUser = async (req, res) => {
 
     res.status(200).json({ message: "User deleted successfully" });
   } catch (err) {
-    res.status(500).json({ error: "cannot delete user!" });
+    res.status(500).json({ error: "Failed to delete user" });
   }
 };
+
 module.exports = { createUser, getUsers, updateUser, deleteUser };
